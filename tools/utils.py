@@ -55,7 +55,7 @@ def array_range(a, low, high, ref=None):
     return a[np.logical_and(ref >= low, ref < high)]
 
 
-def fast_synchronize(time_uft: np.ndarray, *arrays, how='linear') -> (np.ndarray, np.ndarray):
+def fast_synchronize(time_uft, *arrays, how='linear') -> (np.ndarray, np.ndarray):
     """
     Synchronizes the UFT time and record vector to conform with the ACTOS timestamps, and hopefully does so quickly.
     """
