@@ -10,7 +10,7 @@ from tqdm import tqdm
 import tools.utils as utils
 
 
-def prepare_points(path='../data/points.txt'):
+def prepare_points(path='data/points.txt'):
     """
     Parses the output of label app to a dataframe with timestamps of all jump points, including
     the nearest points from the original time vector, converted to milliseconds

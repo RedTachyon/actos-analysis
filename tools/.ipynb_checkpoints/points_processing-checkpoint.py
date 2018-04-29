@@ -10,7 +10,7 @@ from tqdm import tqdm
 import tools.utils as utils
 
 
-def prepare_points(path='../data/points.txt'):
+def prepare_points(path='data/points.txt'):
     """
     Parses the output of label app to a dataframe with timestamps of all jump points, including
     the nearest points from the original time vector, converted to milliseconds
@@ -91,7 +91,7 @@ def generate_positive(labels, time, temperature, size=20):
 
     return np.array(time_data), np.array(temperature_data)
 
-def generate_negative(labels, time, temperature):
+def generate_negative(labels, time, temperature, size=20, safe=50):
     """
     Generates time and temperature vectors of length 20, hopefully not containing a jump, in a safe distance from actual jumps.
     """
@@ -100,11 +100,12 @@ def generate_negative(labels, time, temperature):
     time_data        = []
     temperature_data = []
 
+    pad = (safe - size) // 2
     for i, val in tqdm(enumerate(labels), total=len(labels)):
-        window = labels[i:i+50]
-        if window.max() == 0 and i + 50 < len(labels):
-            time_data.append(time[i+15:i+35])
-            temperature_data.append(temperature[i+15:i+35])
-            labels[i:i+50] = 1
+        window = labels[i:i+safe]
+        if window.max() == 0 and i + safe < len(labels):
+            time_data.append(time[i+pad:i+safe-pad])
+            temperature_data.append(temperature[i+pad:i+safe-pad])
+            labels[i:i+safe] = 1
     
     return np.array(time_data), np.array(temperature_data)

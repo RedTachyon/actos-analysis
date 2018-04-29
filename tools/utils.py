@@ -85,7 +85,7 @@ def slow_synchronize(time_actos: np.ndarray, time_uft: np.ndarray, *arrays, how=
     
     return time_uft, narrays
 
-def write_report(classifier, train_data, train_labels, test_data, test_labels, keras=False):
+def write_report(classifier, train_data, train_labels, test_data, test_labels, keras=False, threshold=.5):
     """
     Evaluates the classifier.
     """
@@ -93,8 +93,8 @@ def write_report(classifier, train_data, train_labels, test_data, test_labels, k
     test_preds = classifier.predict(test_data)
     
     if keras:
-        train_preds = train_preds > .5
-        test_preds = test_preds > .5
+        train_preds = train_preds > threshold
+        test_preds = test_preds > threshold
     
     print("Training data (less important):")
     print(" Accuracy: %.5f\n Precision: %.5f\n Recall: %.5f\n \033[91m F1 score (class 1): %.5f\n\033[0m F1 score (class 0): %.5f" 
